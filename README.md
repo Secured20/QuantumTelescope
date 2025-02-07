@@ -13,11 +13,16 @@ To run project run command "npx vite" in project folder root
 ```
 $ npx vite
 ```
-## Node (Production)
+## Vite SSR Build (Production)
 Run command to build project
-npx vite build
+```
+$ npx vite build
+```
+## Node (Development)
 Run command to start server after build
-Nom start
+```
+$ npm start
+```
 
 ## Key
 Use key file data min.key to login
