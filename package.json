@@ -1,0 +1,40 @@
+{
+  "name": "Quantum Telescope",
+  "version": "1.0.0",
+  "description": "Quantum Telscope",
+  "main": "server.mjs",
+  "type": "module",
+  "dependencies": {
+    "brace": "^0.11.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-fileupload": "^1.5.1",
+    "fs-extra": "^11.3.0",
+    "fsevents": "^2.3.3",
+    "gsap": "^3.12.5",
+    "hover-effect": "^1.1.0",
+    "jquery": "^3.7.1",
+    "jsqubits": "^2.1.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.9",
+    "preact": "^10.25.4",
+    "preact-render-to-string": "^6.5.13",
+    "sass": "^1.43.4",
+    "swiper": "^7.2.0",
+    "three": "^0.168.0",
+    "vite-express": "^0.20.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.0",
+    "@types/dat.gui": "^0.7.13",
+    "dat.gui": "^0.7.9",
+    "vite": "^5.4.10"
+  },
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "start": "node server.mjs",
+    "build": "vite build --outDir dist",
+    "serve": "vite build --outDir server --ssr server.mjs && node server server.js"
+  }
+}

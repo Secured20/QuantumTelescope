@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Telescope</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"  crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" crossorigin="anonymous"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js" crossorigin="anonymous"></script> 
+    <script type="module" src="home.jsx" crossorigin="anonymous"></script> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+<div class="main-card">
+  <div class="main-txt">
+    <h1 class="text-uppercase">Quantum Telescope</h1>
+    <div class='btn-container'>
+        <button id="ripple" class="btn btn--neon" data-target="#auth">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            START
+          </button>
+    </div>
+  </div>
+</div>
+<div class="anime-card">
+  <div class="anime-card-inner">
+    <div class="anime-card-front">
+      <img src="" alt="Slider" class="img-fluid">
+    </div>
+    <div class="anime-card-back">
+      <img src="" alt="Slider" class="img-fluid">
+    </div>
+  </div>
+</div>
+<div class="banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-xl-7 d-flex flex-column">
+        <div class="banner-content">
+          <h2>Quantum Technologies</h2>
+          <p class="d-none d-md-block">Spaceship Equipment With Quantum Telescope</p>
+          <p class="d-block d-md-block">A spacecraft is a vehicle that is designed to fly and operate in outer space. Spacecraft are used for a variety of purposes, including communications and searching for exoplanets.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="banner-two">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8 d-flex flex-column justify-content-center">
+        <div class="banner-two-content text-center">
+          <h2>Discover different exoplanets</h2>
+          <p class="d-none d-md-block">Choose your own quantum technologies to search for life on exoplanets</p>
+          <p class="d-block d-md-block">Does life exist outside of the solar system?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="banner-three">
+  <div class="container">
+    <div class="row justify-content-end">
+      <div class="col-md-6 col-xl-7 d-flex flex-column">
+        <div class="banner-three-content">
+          <h2>Explore galaxies</h2>
+          <p class="d-none d-md-block">Types of Galaxies</p>
+          <p class="d-block d-md-none">
+Astronomers classify galaxies into three major categories: elliptical, spiral and irregular. These galaxies span a wide range of sizes, from dwarf galaxies containing as few as 100 million stars to giant galaxies with more than a trillion stars.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="banner-four">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8 d-flex flex-column justify-content-center">
+        <div class="banner-four-content text-center">
+          <h2>Explore alien technologies</h2>
+          <p>Aliens technologies are spectacular.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="anime-card-ship hidden">
+  <img src="./Assets/main.jpg" alt="Main" class="img-fluid">
+</div>
+<div class="anime-card-one hidden">
+  <img src="./Assets/images.jpg" alt="Spaceship" class="img-fluid">
+</div>
+<div class="anime-card-two hidden">
+  <img src="./Assets/images2.jpg" alt="Exoplanet" class="img-fluid">
+</div>
+ <div class="anime-card-three hidden">
+  <img src="./Assets/images3.jpg" alt="Galaxy" class="img-fluid">
+</div>
+<div class="anime-card-four hidden">
+  <img src="./Assets/images4.jpg" alt="City" class="img-fluid">
+</div>
+<div class="slider-card d-flex flex-column justify-content-center">
+  <h2 class="text-center title">Aliens on exoplanets</h2>
+  <div class="slider-card-inner">
+    <div class="slider-box d-flex">
+      <div class="slider-left">
+        <img src="./Assets/Characters/1.jpeg" alt="img" class="img-fluid img-1">
+        <img src="./Assets/Characters/2.jpeg" alt="img" class="img-fluid img-2">
+        <img src="./Assets/Characters/3.jpeg" alt="img" class="img-fluid img-3">
+        <img src="./Assets/Characters/4.jpeg" alt="img" class="img-fluid img-4">
+        <img src="./Assets/Characters/5.jpeg" alt="img" class="img-fluid img-5">
+      </div>
+      <div class="slider-right">
+        <img src="./Assets/Characters/6.jpeg" alt="img" class="img-fluid img-1">
+        <img src="./Assets/Characters/7.jpeg" alt="img" class="img-fluid img-2">
+        <img src="./Assets/Characters/8.jpeg" alt="img" class="img-fluid img-3">
+        <img src="./Assets/Characters/9.jpeg" alt="img" class="img-fluid img-4">
+        <img src="./Assets/Characters/10.jpeg" alt="img" class="img-fluid img-5">
+      </div>
+    </div>
+  </div>
+</div>
+<div id="auth" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <form action="/auth" enctype="multipart/form-data" method="post">
+      <div class="modal-content modal-black">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload your key</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="drop-zone">
+            <span class="drop-zone__prompt">Drop file here or click to upload</span>
+            <input type="file" name="quantum" class="drop-zone__input">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="send" class="btn btn--neon btn-primary">Send</button>
+          <button type="button" class="btn btn--neon btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

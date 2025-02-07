@@ -1,0 +1,1 @@
+This a model is a Cylon Raider from the re-imagined Battlestar Galactica series. I converted from Sketchup Collada export to .obj and .3ds format. Texture map is included. The image was rendered in Cinema 4D.
