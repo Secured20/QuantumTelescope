@@ -399,7 +399,7 @@ async function quantumCTask(p,f) {
             // Match life
             terminal.printOutput("Match life: "+Protocol);
             var wmmg = makekey(noe,sumDigitsFromString(length));
-            var wmmgR = parseInt(Math.sqrt(wmmg));
+            var wmmgR = makekey(1,parseInt(Math.sqrt(wmmg)));
             terminal.printOutput("Exoplanets: "+wmmgR);
             // Quantum Telescope
             // var hmmg = makeid(5)+makekey(5,sumDigitsFromString(length));
@@ -438,8 +438,10 @@ async function quantumCTask(p,f) {
                     });
 
                 }
+                // Number of solars system to render (fps)
+                var solars = 10;
                 //Variant 1: Render Scene And Send spacship to founded coordinates
-                space.new(rjp);
+                space.new(rjp,);
                 // ضق٩٠٢ر٩دف٧٢-صفر-ص٠ث٧ف-ص٠٨ثف٠ضصث٨ ف-ض٠٨
                 completedG = true;
                 completed = true;

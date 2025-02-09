@@ -1743,7 +1743,7 @@ class SpaceControls {
 			}
 		}
 		universe();
-		generateGalaxy();
+		//generateGalaxy();
 		function polarXYZ(ra,dec,parallax) {
 			// Convert 1 parsec = 30856776000000 km = 308567760 pk
 			// position 1496.00000 149,600,000 kilometers (km)
@@ -2065,9 +2065,9 @@ class SpaceControls {
 	stop(started) {
 		started = false;
 	}
-	new(quantum){
+	new(quantum,solars){
 		// Solar Systems
-		if(quantumData.length > 1){
+		if(quantumData.length > solars){
 			
 		}else if(newQuantumTaskBool == false){
 			//Create new quantum task
