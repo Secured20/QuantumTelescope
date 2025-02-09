@@ -112,9 +112,11 @@ function initCalc(){
 	// The state of the qubit to be transmitted consists of the amplitude of |0> and the amplitude of |1>
 	// Any two complex values can be chosen here so long as the sum of their magnitudes adds up to 1.
 	// For this example, we choose to transmit the state: 0.5+0.5i |0> + 0.7071i |1>
-	var stateToBeTransmitted0 = jsqubits("|0>").multiply(jsqubits.complex(y, z));
-	var stateToBeTransmitted1 = jsqubits("|1>").multiply(jsqubits.complex(0, Math.sqrt(x)));
-	var stateToBeTransmitted = stateToBeTransmitted0.add(stateToBeTransmitted1);
+	var stateToBeTransmitted0 = jsqubits("|0>").multiply(jsqubits.complex(5.001, 10.001));
+	var stateToBeTransmittedx = jsqubits("|1>").multiply(jsqubits.complex(0, Math.sqrt(x)));
+    var stateToBeTransmittedy = jsqubits("|1>").multiply(jsqubits.complex(0, Math.sqrt(y)));
+    var stateToBeTransmittedz = jsqubits("|1>").multiply(jsqubits.complex(0, Math.sqrt(z)));
+	var stateToBeTransmitted = stateToBeTransmitted0.add(stateToBeTransmittedx).add(stateToBeTransmittedy).add(stateToBeTransmittedz);
 
 	//log("State to be transmitted: " + stateToBeTransmitted);
 
@@ -287,6 +289,17 @@ function sumDigitsFromString(str) {
   }
   return sum;
 }
+function qwerty(length) {
+    let result = '';
+    const characters = '.،ورزدذطظشسيبلاتنمك؛جحخهعغفقثثصض';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
 function makeid(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -317,8 +330,9 @@ function mmg(i,q){
     }
 }
 function genS(n,l,m){
-    var num = 0.00001; 
-    var parscec = 3085677600;
+    var scale = 1.7;
+    var parscec = 30856776.00*scale;
+    var eq = 2345.4706481336;
     const galaxyProtocol = makeid(10,sumDigitsFromString(l));
     const bum = makekey(1,sumDigitsFromString(l));
     const bum2 = makekey(1,sumDigitsFromString(l));
@@ -326,13 +340,13 @@ function genS(n,l,m){
     const r = randomBetween(0, 1, bum)*0.001;
     const g = randomBetween(0, 1, bum)*0.001;
     const b = randomBetween(0, 1, bum)*0.001;
-    const x = randomBetween(0, 1,bum2)*parscec;
-    const y = randomBetween(0, 1,bum2)*parscec;
-    const z = randomBetween(0, 1,bum2)*parscec;
-    const N = randomBetween(0, 360,bum2)*num;
-    const st_size = randomBetween(1, 100,bum2)*num;
-    const st_masse = randomBetween(1, 100,bum2)*num;
-    const st_teff = randomBetween(1, 10000,bum2)*num;
+    const x = randomBetween(1, 1000,bum2)*parscec;
+    const y = randomBetween(1, 1000,bum2)*parscec;
+    const z = randomBetween(1, 1000,bum2)*parscec;
+    const N = randomBetween(0, 360,bum2);
+    const st_size = randomBetween(10000, 1000000,bum2)*eq;
+    const st_masse = randomBetween(1, 100,bum2);
+    const st_teff = randomBetween(1000, 10000,bum2);
     const s = {
         "galaxy": galaxyProtocol,
         "m": m,
@@ -353,21 +367,40 @@ function genS(n,l,m){
     return s;
 }
 var rjp = [];
+var completedL = true;
 async function quantumCTask(p,f) {
     terminal.output.innerHTML = '';
-    if(completed){
+    const qc = 907;
+    const length = parseFloat(f.toString().replaceAll("0", "").replaceAll(",", "").match(/\d+/g));// Number of quantum length
+    const emmgId = makekey(length);
+    var ok = true;
+    if(ok){
+        //qis = true;
+        //completedL = false;
+        if(p){
+            terminal.printOutput("Protocol: "+p);
+        }
+        // Number of exoplanets
+        var noe = parseInt(Math.sqrt(length));
+        const qubits = parseInt(Math.sqrt(length));
+        document.getElementById('qubitsQM').innerHTML = qubits;
+        const qubitsProccess = parseInt(makekey(Math.sqrt(qc)));
+        terminal.printOutput("Qubits: "+qubits);
+        terminal.printOutput("Quantum:"+(qubitsProccess/qubits/qc));
+    }
+    if(completed && completedL){
         if(completedG){
             const Protocol = rjp.m; // star protocol
             const qProtocol = p; // exoplanets protocol
             // Find star=>exoplanets=>quantum inteligence protocols
-            const length = f.toString().match(/\d+/g);// Number of quantum length
-            const emmgId = makekey(length);// Number of exoplanets
             // Create quantum data
             completed = true;
             completedG = true;
             // Match life
-            // var wmmg = makeid(2)+makekey(10,sumDigitsFromString(length));
             terminal.printOutput("Match life: "+Protocol);
+            var wmmg = makekey(noe,sumDigitsFromString(length));
+            var wmmgR = parseInt(Math.sqrt(wmmg));
+            terminal.printOutput("Exoplanets: "+wmmgR);
             // Quantum Telescope
             // var hmmg = makeid(5)+makekey(5,sumDigitsFromString(length));
             terminal.printOutput("Match quantum telescope: "+qProtocol);
@@ -379,7 +412,9 @@ async function quantumCTask(p,f) {
             if(qip){
                 // Quantum Inteligence
                 rjp.E = [];
-                await length.forEach(exoplanet => {
+                //var ea = []
+                //await ea.forEach(exoplanet => {});
+                while(wmmgR--){
                     var num = 0.00000001;
                     var exoplanetProtocol = makeid(10,sumDigitsFromString(length));
                     var bum2 = makekey(10,sumDigitsFromString(length));
@@ -402,18 +437,19 @@ async function quantumCTask(p,f) {
                         "sy_dist": sy_dist,
                     });
 
-                });
+                }
                 //Variant 1: Render Scene And Send spacship to founded coordinates
                 space.new(rjp);
                 // ضق٩٠٢ر٩دف٧٢-صفر-ص٠ث٧ف-ص٠٨ثف٠ضصث٨ ف-ض٠٨
-                completedG = false;
+                completedG = true;
                 completed = true;
+
                 if(qis){
                     //Variant 2: Save new founded life coordinates 
                     $.post("/api/create",rjp, function (d, status) {
                         terminal.printOutput(JSON.stringify(d));
                         // when ready proceed to next
-                        //qip = false;
+                        qis = true;
                         completedG = false;
                         completed = true;
                     });
@@ -424,7 +460,7 @@ async function quantumCTask(p,f) {
             }
         }else{
             terminal.printOutput('Quantum Task Completed '+quantumTask);
-            terminal.printOutput("Protocol: "+p);
+            //terminal.printOutput("Protocol: "+p);
             let length = f.toString().match(/\d+/g);
             let match = makeid(2)+makekey(10,sumDigitsFromString(length));
             terminal.printOutput("Match: "+match);
@@ -437,10 +473,12 @@ async function quantumCTask(p,f) {
         let quantumTaskQue = initNewTask(length);
         terminal.printOutput(quantumTaskQue);
     }else{
-        terminal.printOutput("Init quantum task "+quantumTask);
-        terminal.printOutput("Protocol: "+p);
-        completed = true;
-        animateStatusBars();
+        if(completedL){
+            terminal.printOutput("Init quantum task "+quantumTask);
+            //terminal.printOutput("Protocol: "+p);
+            completed = true;
+            animateStatusBars();
+        }
     }
 }
 // Glyph Rain Effect

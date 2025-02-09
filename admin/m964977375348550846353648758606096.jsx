@@ -174,7 +174,7 @@ class SpaceControls {
 					  })
 		        	}else if(engine == '٠'){
 		        		const getPrevAndNext = (selectedExoplanet) => {
-						  const index = planetsData.findIndex((a) => a.userData.name === selectedExoplanet)
+						  const index = exoplanets.findIndex((a) => a === selectedExoplanet)
 						  if (index === -1) {
 						    return undefined
 						  }
@@ -224,7 +224,7 @@ class SpaceControls {
 				                }
 				            },0)
 				            tl.to(camera.position, {
-							                duration: 5,
+							                duration: 1,
 							                onUpdate: () => {
 							                	var offset = 20;
 							                	var orbitRadius = 69;
@@ -351,9 +351,9 @@ class SpaceControls {
 		      	miniViwer(selectedExoplanet);
 		      	var position = ufo.position;
 		      	var planet = getPlanet();
-		      	console.log(selectedExoplanet)
-		      	console.log(planet.position)
-		      	console.log(selectedStar)
+		      	//console.log(selectedExoplanet)
+		      	//console.log(planet.position)
+		      	//console.log(selectedStar)
 		      	//console.log(solar.group.position)
 		            var aabb = new THREE.Box3().setFromObject( planet );
 					var center = aabb.getCenter( new THREE.Vector3() );
@@ -682,18 +682,21 @@ class SpaceControls {
 			}
 			renderEnginePage()
 			function miniViwer(value){
-				//const quantumInfo = quantumData.find(q => q.m === newQuantumTask.m);
-					document.getElementById('selectSystem').innerHTML = value;
-					document.getElementById('galaxySystem').innerHTML = '🌌 1و١٠ط٤١';//+gd.es.userData.host;
+					const planet = getPlanet(value);
+					if(planet){
+						document.getElementById('selectSystem').innerHTML = planet.userData.name;
+						document.getElementById('galaxySystem').innerHTML = '🌌 1و١٠ط٤١'+ planet.userData.host;
+					}
 					document.getElementById("powerModResult").innerHTML = play();
-					document.getElementById("quantumDataResult").innerHTML = "؟ظ"//gd.es.userData.position.x + " " + gd.es.userData.position.y + " " + gd.es.userData.position.z;//q;
-				//const gd = solarSystemData.find(t => t.es.userData.name === value);
-				//const pd = planetsData.find(t => t.userData.name === value);
-				//console.log(pd);
-				//console.log(groupData);
-				//console.log(solarSystemData)
+					document.getElementById("quantumDataResult").innerHTML = "؟ظ"
+					//gd.es.userData.position.x + " " + gd.es.userData.position.y + " " + gd.es.userData.position.z;//q;
+					//const gd = solarSystemData.find(t => t.es.userData.name === value);
+					//const pd = planetsData.find(t => t.userData.name === value);
+					//console.log(pd);
+					//console.log(groupData);
+					//console.log(solarSystemData)
 			};
-			miniViwer(selectedExoplanet);
+			//miniViwer(selectedExoplanet);
 			document.getElementById('myInput').addEventListener('change',readSingleFile,false);
 			var gui = new dat.gui.GUI();
 			gui.hide();
@@ -718,10 +721,10 @@ class SpaceControls {
 				selectedStar = value;
 				var pd = getPlanet(value);
 				if(pd){
-					selectedExoplanet = pd.userData.name;		
+					selectedExoplanet = pd.userData.name;	
+					selectAnim(selectedExoplanet);
+					startAnimation("e");	
 				}
-				//moveCamera();
-				startAnimation("e");
 			});
 			gui.add(objGui, 'start').name('Start');
 			gui.add(objGui, "QunatumTelescope",false).onChange(function(value) {
@@ -1286,7 +1289,7 @@ class SpaceControls {
 		   */
 		  var params = {
 		  	multiverse: 1,
-		    count: 100000,//quantumData.length,
+		    count: quantumData.length,
 		    size: 41.25,
 		    radius: 42.36,
 		    branches: 34,
@@ -1488,8 +1491,9 @@ class SpaceControls {
 		function animateSpaceship() {
 			if (ufo) {
 					//وط١٠٣٧٠١٩٣٥ينبو٢-٥ ٢٠ ذبت ٢ده٦٠٢-نبل نفو-٢٦و-٢٤
-		      		//startAnimation('٠');
-					startAnimation();
+		      		startAnimation('٠');
+					//startAnimation();
+					//startAnimation('e');
 			}
 		}
 		function moveship(i) {
@@ -1558,19 +1562,15 @@ class SpaceControls {
 				        	let t = clock.getElapsedTime();
 				        	//child.position.set(Math.cos(t * speed), py, -Math.sin(t * speed)).multiplyScalar(orbitRadius+SpaceSize);
 				            //const d = child.position.distanceTo(group.position);
-				            //Create a matrix
-							var matrix = new THREE.Matrix4();
 							//Rotate the matrix
-							var offset = equatorial*1000;
-							//var equatorial = 23454.706481336;
 							var orbitRadius = child.userData.orbit;
 							var speed = child.userData.speed;
 							var name = child.userData.name;
 							var dist = child.userData.dist;
 							// Planet Position
-							var X = group.position.x + (-Math.sin(elapsedValue*speed + orbitRadius)*(orbitRadius)*offset);
-							var Y = group.position.y + dist+offset;
-							var Z = group.position.z + (Math.cos(elapsedValue*speed + orbitRadius)*(orbitRadius)*offset);
+							var X = group.position.x + (-Math.sin(elapsedValue*speed + orbitRadius)*(orbitRadius)*(dist));
+							var Y = group.position.y + (dist);
+							var Z = group.position.z + (Math.cos(elapsedValue*speed + orbitRadius)*(orbitRadius)*(dist));
 							child.position.setX(X);
 				  			child.position.setY(Y);
 				  			child.position.setZ(Z);
@@ -1616,9 +1616,12 @@ class SpaceControls {
 							//Self planet rotation
 						    //solar.es.rotateY(0.0002);
 						    //child.rotateY(elapsedValue*orbitRadius / 16 * 0.01);
-		  					child.rotation.y += 1 / elapsedValue * 0.01;
+		  					child.rotation.y += 1 / elapsedValue * orbitRadius * 0.001;
 							//child.rotateY(orbitRadius+offset);
-							//child.position.applyMatrix4(matrix);
+							//Create a matrix
+							const angle = 0.6;
+							var matrix = new THREE.Matrix4().makeRotationX(angle);
+							child.position.applyMatrix4(matrix);
 							//child.position.set(child.position.x * Math.cos(t * ospeed), child.position.y, child.position.z * -Math.sin(t * ospeed));
 							//child.position.copy(st.position).lerp( new THREE.Vector3(), 1000 );
 				            //console.log(name+' - dist:'+d+' orbit:'+orbitRadius+' speed:'+speed);
@@ -1627,7 +1630,8 @@ class SpaceControls {
 				            
 				            child.needsUpdate = true;
 
-				        }else if(child.userData.type == "Star"){
+				        }
+				        if(child.userData.type == "Star"){
 							// Star Uniform
 							var elapsedMilliseconds = Date.now() - startTime;
 					        var elapsedSeconds = elapsedMilliseconds / 1000;
@@ -1647,15 +1651,14 @@ class SpaceControls {
 					        	child.material.uniforms.diffuse.value = { r:hexToRgb(color).r, g:hexToRgb(color).g, b:hexToRgb(color).b };
 							});
 				        	// Sun Rotation
-							child.rotateY(0.0004);
+							child.rotation.y += 1 / elapsedValue * 0.001;
 							// Sun Position
-							var X = group.position.x; //(-Math.sin(elapsedValue*speed + orbitRadius)*(orbitRadius)*offset);
-							var Y = group.position.y; //dist+offset;
-							var Z = group.position.z; //(Math.cos(elapsedValue*speed + orbitRadius)*(orbitRadius)*offset);
+							var X = group.position.x + (-Math.sin(elapsedSeconds));
+							var Y = group.position.y + elapsedSeconds;
+							var Z = group.position.z + (Math.cos(elapsedSeconds));
 							child.position.setX(X);
 				  			child.position.setY(Y);
 				  			child.position.setZ(Z);
-							//child.position.set(group.position.x,group.position.y,group.position.z);
 							// Sun light position
 							//points.push(new THREE.Vector3(group.position.x, group.position.y, group.position.z));
 				        }
@@ -1843,7 +1846,6 @@ class SpaceControls {
 				}, 1);
 			});
 		}
-		//const loaderGL = new GLTFLoader();
 		function createPlanets(item){				
 								const planetD = JSON.parse(JSON.stringify(item));
 								//console.log(planetD)
@@ -1917,12 +1919,12 @@ class SpaceControls {
 		}
 
 		function createStars(item){
-					const star = JSON.parse(JSON.stringify(item));
+					var star = item;
+					//console.log("REACHED STAR")
 					//console.log(star)
 					var temp = Number(star.st_teff);
 					var mass = Number(star.st_mass);
 					var size = Number(star.st_size);
-					var DIST = Number(star.sy_dist);
 					var host = star.galaxy;
 					var name = star.m;
 					var X = star.x;
@@ -1932,7 +1934,7 @@ class SpaceControls {
 					//DIST = posStar[3];//DIST*equatorial;
 					// add it to the geometry
 					//points.push(new THREE.Vector3(pX, pY, pZ))
-					const geometrySphere = new THREE.SphereGeometry( radiusS, segmentsS, segmentsS ); 
+					var geometrySphere = new THREE.SphereGeometry( radiusS, segmentsS, segmentsS ); 
 					var CombinedShader = {
 									  uniforms: {
 									    time: { value: 0 },
@@ -1941,8 +1943,8 @@ class SpaceControls {
 									    lowTemp: { type: "f", value: temp / 6 },
 									   	diffuse: { type: "c", value: { r:1, g:0.906, b:0.91 } }
 									  },
-									  vertexShader: vertexShaderPlanet,
-									  fragmentShader: fragmentShaderPlanet
+									  vertexShader: vertexShader,
+									  fragmentShader: fragmentShader
 					};
 				    let materialSphere = new THREE.ShaderMaterial({
 					    uniforms: CombinedShader.uniforms,
@@ -2020,13 +2022,13 @@ class SpaceControls {
 					// Render star with exoplanets
 					var quantum = JSON.parse(JSON.stringify(q));
 					//console.log(quantum);
+					// Create Custom Solar System
+					var group = new THREE.Group();
 					// Add to StarView Planets
 					var st = createStars(quantum);
-					st.position.set(quantum.x,quantum.y,quantum.z);
 					stars.push(quantum.m);
 					updateDatDropdown(controller2 , stars, 2);
-					// Create Custom Solar System
-					var group = new THREE.Object3D()
+					group.add( st );
 					group.position.set(quantum.x,quantum.y,quantum.z); // ضر٧ر٠١ ٧٥ذ١طو٩ر٥ض٠٧٥ور١٠٥ذ٠١رذ٢٥٧نصب٩تق١-ذ٥وو١٢٥-١٢ذونق ذ١٢٥
 					group.needsUpdate = true;
 					if(quantum.E.length > 0){
@@ -2040,7 +2042,6 @@ class SpaceControls {
 						}
 					}
 					//console.log(group.position)
-					group.add( st );
 				  	group.updateMatrixWorld();
 					scene.add(group);
 					solarSystemData.push({group});
@@ -2065,8 +2066,11 @@ class SpaceControls {
 		started = false;
 	}
 	new(quantum){
-		//Create new quantum task
-		if(newQuantumTaskBool == false){
+		// Solar Systems
+		if(quantumData.length > 1){
+			
+		}else if(newQuantumTaskBool == false){
+			//Create new quantum task
 			newQuantumTask.push(quantum);
 			//console.log(quantum);
 			quantumData.push(quantum);

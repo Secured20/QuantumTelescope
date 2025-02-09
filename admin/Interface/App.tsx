@@ -440,7 +440,7 @@ export default function App() {
                               <video id="videoPlayerQ" width="100%" height="auto" muted="muted" autoplay loop="true">
                                 <source src="/video/qe.mp4" type="video/mp4" />
                             </video>
-                            <div class="crystal-status">Quantum Machine Energy Level:<em id='battery'>100%</em></div>
+                            <div class="crystal-status">Quantum Machine Qubits: <em id='qubitsQM'></em> ψ (=ΨeiEt/ħ)</div>
                           </div>
                           <div class="widget crystal-widget">
                               <video id="videoPlayerTV" width="100%" height="auto" muted="muted" autoplay loop="true">
