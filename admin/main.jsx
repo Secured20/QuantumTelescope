@@ -123,7 +123,7 @@ function initCalc(){
 	// The quantum computer is initialized as a three qubit system with bits 0 and 1 being the bell state qbits shared by Alice and Bob
 	// and bit 2 being the qubit to be transmitted.
 
-	var bellState = jsqubits('|00>').add(jsqubits('|11>')).normalize();
+	var bellState = jsqubits('|1010010101010010101>').add(jsqubits('|99455289055051927262725104812978441287930856793>')).normalize();
 	var initialState = stateToBeTransmitted.tensorProduct(bellState);
 
 	// Now apply the Teleportation algorithm
@@ -137,7 +137,7 @@ function initCalc(){
 	// If we had some way of projecting onto bit 0, we would have
 	// stateToBeTransmitted0 |0> + stateToBeTransmitted1 |1>
 		//document.getElementById("powerModResult").innerHTML = finalState;
-		const protocol = document.getElementById("powerModResult").innerHTML
+		const protocol = document.getElementById("powerModResult").innerHTML;
         quantumCTask(protocol,finalState);
 		// Header Menu
 		$("#appMenu").find('.nav__item').find('.nav__link').on("mouseover", function () {
@@ -313,7 +313,7 @@ function makeid(length) {
 }
 function makekey(length,char) {
     let result = '';
-    const characters = '0123456789';
+    const characters = '0123456789'
     const charactersLength = characters.length;
     let counter = 0;
     while (counter < length) {
@@ -368,10 +368,10 @@ function genS(n,l,m){
 }
 var rjp = [];
 var completedL = true;
-async function quantumCTask(p,f) {
+async function quantumCTask(p,a) {
     terminal.output.innerHTML = '';
-    const qc = 907;
-    const length = parseFloat(f.toString().replaceAll("0", "").replaceAll(",", "").match(/\d+/g));// Number of quantum length
+    const qc = 907;// ص٩٠٧ر٢٠٠٢٣٥٠٢٣٨٥٢-٣رذ٥٨٢-٥٨و٢-٣٠٨ذ٥٢٠٣٨٥ر٢٠٣٥٨ذ٥و٢٨٥٠رث٥صذو٨٢ر٥٨٢-٠٣٨و٥٢ذ٦٢٨٦ر٢٣=٠٦و٢-ذ٦٠٨٢ر٦٠٢٨٦٢٦٨٢-٠٦٨وو
+    const length = parseFloat(a.toString().replaceAll("0", "").replaceAll(",", "").match(/\d+/g));// Number of quantum length
     const emmgId = makekey(length);
     var ok = true;
     if(ok){
@@ -393,28 +393,42 @@ async function quantumCTask(p,f) {
             const Protocol = rjp.m; // star protocol
             const qProtocol = p; // exoplanets protocol
             // Find star=>exoplanets=>quantum inteligence protocols
-            // Create quantum data
+            // Create quantum data0
             completed = true;
             completedG = true;
-            // Match life
-            terminal.printOutput("Match life: "+Protocol);
+            //٩٠ضذر٧٩٣١٠٧٤٠١٧ر ذ١٩٣٤٧٠١٣٧٤ ١ذ٧٤٠ضصث٨ر-قشيمنمقعرضحذ ٢-٤٨٢ذسمثع٥ض ٢-٤٠رذر٢-
+            //١غ٤٩٨١ذ٦٥٠١٧٧٥٩ذز١-٥-١ذر٣٠٥١-٣٠٥٨١-٠٣٧٥-٠١٣٥١٨٠٣٥١ر٧٣٥-١٠٣٧٥١-
+            // Match life ١و٠٩٤ر٨-١٠٢٥-١٢٥٠٧١٢٥٠TROJAN ١٩٠ض٧٠١٧٥١٧-٣٥٨١+٠٣
+            terminal.printOutput("Match life: "+Protocol);//٠ض٧ر٩
             var wmmg = makekey(noe,sumDigitsFromString(length));
-            var wmmgR = makekey(1,parseInt(Math.sqrt(wmmg)));
-            terminal.printOutput("Exoplanets: "+wmmgR);
+            var wmmgG = parseInt(Math.sqrt(wmmg));
+            const wmmgQ = 1;
+            var wmmgR = makekey(wmmgQ,wmmgG);
+            var wmmgInt = Number(wmmgR);
+            //Quantum Exoplanets
+            if(wmmgInt >= wmmgQ){
+                qip = true;
+                var wmmgQM = Math.sqrt(wmmgInt * 10000000000000000)*100000000;
+                terminal.printOutput("Quantum Exoplanets: "+wmmgG);
+            }else{
+                 qip = false;
+            }
             // Quantum Telescope
-            // var hmmg = makeid(5)+makekey(5,sumDigitsFromString(length));
+            var hmmg = makekey(wmmgInt,sumDigitsFromString(length));
+            terminal.printOutput("Local Exoplanets: "+wmmgInt);
+            terminal.printOutput("Time Line: "+hmmg);
             terminal.printOutput("Match quantum telescope: "+qProtocol);
             // Quantum Super Stars
             // var smmg = makeid(10)+makekey(2,sumDigitsFromString(length));
             //S//Protocol=>qProtocol=>length emmgId  //mmg(Protocol,qProtocol)
-            //q0197nqc5103571907xq9mnq05cm57359n02=73rs0c,2c572-c3as7tm252n59jf0hr2c05n9727cfmc2059n720dcrmt25301q701470175q251025
+            //q0197nqc5103571907xq9mnq05cm57359n02=73rs0c,2c572-c3as7tm252n59jf0hr2c05n9727cfmc2059n720dcrmt25301q701470175q251025 1й907157с-015-1825
             //،ط١-ر١ ٥ط٠١٥٨ ض٠صذ-ذ١٧٥ ٧٠١٥رذ طذ٧ش٩٥ر١-٥رذ١ ٥١٠٢٧٥ذط-شو٥٧١ -٠٢رذضصو-٥١٠٥١ر-٥١ ذ٥ض٧-٥٧١-ر٧٥ط٠ضط٦٥٨١٦ورط٠٩١٢٦ذشرس-٥٦١ر٥ذطضرش٥و١٠ر٥٩١٢٥وو٠رش٥١٥١٠٢٥٦١٥٩٠١٦٥ذ-ض٠٦١٩٥١ر-ذ٦٠١
             if(qip){
                 // Quantum Inteligence
                 rjp.E = [];
                 //var ea = []
                 //await ea.forEach(exoplanet => {});
-                while(wmmgR--){
+                while(wmmgInt--){
                     var num = 0.00000001;
                     var exoplanetProtocol = makeid(10,sumDigitsFromString(length));
                     var bum2 = makekey(10,sumDigitsFromString(length));
@@ -439,13 +453,13 @@ async function quantumCTask(p,f) {
 
                 }
                 // Number of solars system to render (fps)
-                var solars = 10;
+                var solars = 100;
                 //Variant 1: Render Scene And Send spacship to founded coordinates
-                space.new(rjp,);
+                space.new(rjp,solars);
                 // ضق٩٠٢ر٩دف٧٢-صفر-ص٠ث٧ف-ص٠٨ثف٠ضصث٨ ف-ض٠٨
                 completedG = true;
                 completed = true;
-
+                qis = false;
                 if(qis){
                     //Variant 2: Save new founded life coordinates 
                     $.post("/api/create",rjp, function (d, status) {
@@ -463,7 +477,7 @@ async function quantumCTask(p,f) {
         }else{
             terminal.printOutput('Quantum Task Completed '+quantumTask);
             //terminal.printOutput("Protocol: "+p);
-            let length = f.toString().match(/\d+/g);
+            let length = a.toString().match(/\d+/g);
             let match = makeid(2)+makekey(10,sumDigitsFromString(length));
             terminal.printOutput("Match: "+match);
             completedG = true;
