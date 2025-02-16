@@ -148,7 +148,11 @@ function initCalc(){
     				$('#spaceRoot').removeClass('hidden');
                     // Start quantum space
                     initSpace();
-    			}else{
+    			}else if(pagear[1] == 'map'){
+                    $('.app-container').addClass('hidden');
+                    $('.map-container').removeClass('hidden');
+                }else{
+                    $('.map-container').addClass('hidden');
     				$('#spaceRoot').addClass('hidden');
     				$('.app-container').removeClass('hidden'); 
     			}
@@ -329,21 +333,28 @@ function mmg(i,q){
         return false;
     }
 }
-function genS(n,l,m){
-    var scale = 1.7;
+function genS(n,l,m,smmg){
+    var scale = 10.7+smmg;
     var parscec = 30856776.00*scale;
     var eq = 2345.4706481336;
+    var num = 0.00000001;
     const galaxyProtocol = makeid(10,sumDigitsFromString(l));
     const bum = makekey(1,sumDigitsFromString(l));
     const bum2 = makekey(1,sumDigitsFromString(l));
-    const randomBetween = (min, max, b) => min + Math.floor(Math.random() *  (max - min +  b));
+    const bum3 = makekey(1,sumDigitsFromString(l));
+    const randomBetween = (min, max, b) => min + Math.floor(Math.random() *  (max - min +  b));//smmg
     const r = randomBetween(0, 1, bum)*0.001;
-    const g = randomBetween(0, 1, bum)*0.001;
-    const b = randomBetween(0, 1, bum)*0.001;
+    const g = randomBetween(0, 1, bum2)*0.001;
+    const b = randomBetween(0, 1, bum3)*0.001;
     const x = randomBetween(1, 1000,bum2)*parscec;
     const y = randomBetween(1, 1000,bum2)*parscec;
     const z = randomBetween(1, 1000,bum2)*parscec;
     const N = randomBetween(0, 360,bum2);
+    const sy_rade = randomBetween(1, 1000,bum2)*num;
+    const sy_orbper = randomBetween(1, 1000,bum2)*num;
+    const sy_size = randomBetween(1, 100,bum2)*eq;
+    const sy_speed = randomBetween(1, 10,bum2)*num;
+    const sy_dist = randomBetween(1, 10000,bum2)*num;
     const st_size = randomBetween(10000, 1000000,bum2)*eq;
     const st_masse = randomBetween(1, 100,bum2);
     const st_teff = randomBetween(1000, 10000,bum2);
@@ -354,6 +365,11 @@ function genS(n,l,m){
         "y": y,
         "z": z,
         "N": N,
+        "sy_rade": sy_rade,
+        "sy_size": sy_size,
+        "sy_orbper": sy_orbper,
+        "sy_speed": sy_speed,
+        "sy_dist": sy_dist,
         "st_size": st_size,
         "st_mass": st_masse,
         "st_teff": st_teff,
@@ -393,11 +409,13 @@ async function quantumCTask(p,a) {
             const Protocol = rjp.m; // star protocol
             const qProtocol = p; // exoplanets protocol
             // Find star=>exoplanets=>quantum inteligence protocols
+            //let output = JSON.stringify(json);
+            //terminal.printOutput(output);
             // Create quantum data0
             completed = true;
             completedG = true;
             //٩٠ضذر٧٩٣١٠٧٤٠١٧ر ذ١٩٣٤٧٠١٣٧٤ ١ذ٧٤٠ضصث٨ر-قشيمنمقعرضحذ ٢-٤٨٢ذسمثع٥ض ٢-٤٠رذر٢-
-            //١غ٤٩٨١ذ٦٥٠١٧٧٥٩ذز١-٥-١ذر٣٠٥١-٣٠٥٨١-٠٣٧٥-٠١٣٥١٨٠٣٥١ر٧٣٥-١٠٣٧٥١-
+            //١غ٤٩٨١ذ٦٥٠١٧٧٥٩ذز١-٥-١ذر٣٠٥١-٣٠٥٨١-٠٣٧٥-٠١٣٥١٨٠٣٥١ر٧٣٥-١٠٣٧٥١-        ٠٩ذ§٢٧٣٥٠٩٧٢١٧٦٥-١٠د٣٤٨٦-٢٣٨٤٦د٨و٣١=د٤و٦زضر٣ثقفنرز١٠د٣٦٨ز= ٣٠٤٦٣١٤دو٦ز=٣٤و٦٩=٣-٤٦٩٤
             // Match life ١و٠٩٤ر٨-١٠٢٥-١٢٥٠٧١٢٥٠TROJAN ١٩٠ض٧٠١٧٥١٧-٣٥٨١+٠٣
             terminal.printOutput("Match life: "+Protocol);//٠ض٧ر٩
             var wmmg = makekey(noe,sumDigitsFromString(length));
@@ -418,28 +436,30 @@ async function quantumCTask(p,a) {
             terminal.printOutput("Local Exoplanets: "+wmmgInt);
             terminal.printOutput("Time Line: "+hmmg);
             terminal.printOutput("Match quantum telescope: "+qProtocol);
-            // Quantum Super Stars
-            // var smmg = makeid(10)+makekey(2,sumDigitsFromString(length));
+            document.getElementById('mapResultMain').innerHTML = "1097401972097410274091274091729075175-1357-173591729471-2057-1083-518-30-03185-3018 1qmRNK q666  q907 q89102401x 12401 102c7q001c401 qn01q 091740q 97120c01972cq97012 cc4190x7q9m01n2q9147q91nn q90741 240q7047124 4c 10924c7 q40191m09741294c  q10947cq 09710 x10q1q0n9701c1mx10n295n20571029172r0172  9§7n04914701792x4 4709709 70971 9710n 70 17 n70q7c019705710371 1qm 1q097c1047127017471927.01s"; 
             //S//Protocol=>qProtocol=>length emmgId  //mmg(Protocol,qProtocol)
             //q0197nqc5103571907xq9mnq05cm57359n02=73rs0c,2c572-c3as7tm252n59jf0hr2c05n9727cfmc2059n720dcrmt25301q701470175q251025 1й907157с-015-1825
             //،ط١-ر١ ٥ط٠١٥٨ ض٠صذ-ذ١٧٥ ٧٠١٥رذ طذ٧ش٩٥ر١-٥رذ١ ٥١٠٢٧٥ذط-شو٥٧١ -٠٢رذضصو-٥١٠٥١ر-٥١ ذ٥ض٧-٥٧١-ر٧٥ط٠ضط٦٥٨١٦ورط٠٩١٢٦ذشرس-٥٦١ر٥ذطضرش٥و١٠ر٥٩١٢٥وو٠رش٥١٥١٠٢٥٦١٥٩٠١٦٥ذ-ض٠٦١٩٥١ر-ذ٦٠١
             if(qip){
+                // Quantum Super Stars Sequence
+                let match = makeid(2)+makekey(10,sumDigitsFromString(length));
+                var smmg = makekey(wmmgInt,hmmg);
+                const json = genS(p,length,match,smmg);
+                rjp = json;
                 // Quantum Inteligence
                 rjp.E = [];
-                //var ea = []
-                //await ea.forEach(exoplanet => {});
                 while(wmmgInt--){
+                    var mpi = 1000;
                     var num = 0.00000001;
                     var exoplanetProtocol = makeid(10,sumDigitsFromString(length));
                     var bum2 = makekey(10,sumDigitsFromString(length));
-                    const randomBetween = (min, max, b) => min + Math.floor(Math.random() *  (max - min + b));// todo: add quantum telescope calculation
-                    const pl_rade = randomBetween(1, 1000,bum2)*num;
-                    const pl_orbper = randomBetween(1, 1000,bum2)*num;
-                    const pl_masse = randomBetween(1, 100,bum2)*num;
-                    const pl_size = randomBetween(1, 100,bum2)*num;
-                    const pl_speed = randomBetween(1, 10,bum2)*num;
-                    const sy_dist = randomBetween(1, 10000,bum2)*num;
-                    //rjp.E.push({"p":makekey(10,sumDigitsFromString(length)),"key":exoplanet}); // protocol , time life key
+                    const randomBetween = (min, max, b) => min + Math.floor(Math.random() *  (max - min + b));//smmg *
+                    const pl_rade = randomBetween(1, mpi,bum2)*num;
+                    const pl_orbper = randomBetween(1, mpi,bum2)*num;
+                    const pl_masse = randomBetween(1, mpi,bum2)*num;
+                    const pl_size = randomBetween(1, mpi/10,bum2)*num;
+                    const pl_speed = randomBetween(1, mpi,bum2)*num;
+                    const sy_dist = randomBetween(1, mpi,bum2)*num;
                     rjp.E.push({
                         "pl_name": exoplanetProtocol,
                         "pl_rade": pl_rade,
@@ -453,9 +473,8 @@ async function quantumCTask(p,a) {
 
                 }
                 // Number of solars system to render (fps)
-                var solars = 100;
                 //Variant 1: Render Scene And Send spacship to founded coordinates
-                space.new(rjp,solars);
+                space.new(rjp,wmmgG); //wmmgG
                 // ضق٩٠٢ر٩دف٧٢-صفر-ص٠ث٧ف-ص٠٨ثف٠ضصث٨ ف-ض٠٨
                 completedG = true;
                 completed = true;
@@ -481,10 +500,6 @@ async function quantumCTask(p,a) {
             let match = makeid(2)+makekey(10,sumDigitsFromString(length));
             terminal.printOutput("Match: "+match);
             completedG = true;
-            const json = genS(p,length,match);
-            //let output = JSON.stringify(json);
-            //terminal.printOutput(output);
-            rjp = json;
         }
         let quantumTaskQue = initNewTask(length);
         terminal.printOutput(quantumTaskQue);

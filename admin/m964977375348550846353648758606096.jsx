@@ -1653,15 +1653,51 @@ class SpaceControls {
 				        	// Sun Rotation
 							child.rotation.y += 1 / elapsedValue * 0.001;
 							// Sun Position
-							var X = group.position.x + (-Math.sin(elapsedSeconds));
-							var Y = group.position.y + elapsedSeconds;
-							var Z = group.position.z + (Math.cos(elapsedSeconds));
+							//var X = group.position.x + (-Math.sin(elapsedSeconds));
+							//var Y = group.position.y + elapsedSeconds;
+							//var Z = group.position.z + (Math.cos(elapsedSeconds));
+							var orbitRadius = child.userData.orbit;
+							var speed = child.userData.speed;
+							var dist = child.userData.dist;
+							var X = group.position.x + (-Math.sin(elapsedValue*speed + orbitRadius)*(orbitRadius)*(dist));
+							var Y = group.position.y + (dist);
+							var Z = group.position.z + (Math.cos(elapsedValue*speed + orbitRadius)*(orbitRadius)*(dist));
 							child.position.setX(X);
 				  			child.position.setY(Y);
 				  			child.position.setZ(Z);
 							// Sun light position
 							//points.push(new THREE.Vector3(group.position.x, group.position.y, group.position.z));
 				        }
+				        if(child.userData.type == "Black hole"){
+				        	// Black Hole Uniform
+							var elapsedMilliseconds = Date.now() - startTime;
+					        var elapsedSeconds = elapsedMilliseconds / 1000;
+					        child.material.uniforms.time.value = (60 * elapsedSeconds) / 5000;
+					        child.material.uniforms.scale.value = (60 * elapsedSeconds) / 5000;
+					        // BH Types by Kelvin Color Pallete
+					        const classes = [0x00035A,0x0000F4,0x0004F4,0x0002D0,0x000FA3,0x000F54,0x000C55, Math.random() *0x000000, Math.random() *0x000000, Math.random() *0x000000];
+					        function hexToRgb(hex) {
+							  var result = /^0x?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+							  return result ? {
+							    r: parseInt(result[1], 16),
+							    g: parseInt(result[2], 16),
+							    b: parseInt(result[3], 16)
+							  } : { r:1, g:0.906, b:0.91 };
+							}
+							classes.forEach(function (color) {
+					        	child.material.uniforms.diffuse.value = { r:hexToRgb(color).r, g:hexToRgb(color).g, b:hexToRgb(color).b };
+							});
+				        	// BH Rotation
+							child.rotation.y += 1 / elapsedValue * 0.001;
+							// BH Position
+							var X = group.position.x + (-Math.sin(elapsedSeconds));
+							var Y = group.position.y + elapsedSeconds;
+							var Z = group.position.z + (Math.cos(elapsedSeconds));
+							child.position.setX(X);
+				  			child.position.setY(Y);
+				  			child.position.setZ(Z);
+
+				       	}
 				    })
 				};
 				rotationEffect(solar.group);
@@ -1755,96 +1791,70 @@ class SpaceControls {
 			return [X,Y,Z,C]
 		}
 
-		async function createBH(item){
-			return new Promise(resolve => {
-				setTimeout(() => {
-					var url = item['image'];
-					var name = item["list"];
-					const host = item["constellation"];
-					var radius = Number(item["radius"]);
-					var size = Number(item["pl_trandep"]);
-					var orbit = item["pl_ratdor"]; // sy_dist,st_vsin alternative
-					var speed = item["pl_orbper"]; // todo speed
-			        var temp = item["pl_insol"]; // todo 
-					if(speed == null){
-						speed = item["pl_orbsmax"];
-					}
-					var RA = Number(item["rightAscension"]);
-					if(RA == null || RA == 0){
-						RA = item["rightAscension"];
-					}
-					var DEC = Number(item["declination"]);
-					if(DEC == null || DEC == 0){
-						DEC = item["declination"];
-					}
-					var RA_STR = item["rightAscension"];
-					if(RA_STR == null || RA_STR == ""){
-						RA_STR = "08h15m47.96s";
-					}
-					var DEC_STR = item["declination"];
-					if(DEC_STR == null || DEC_STR == ""){
-						DEC_STR = "+05d50m12.72s";
-					}
-					const DIST = Number(item["distance"].ly);
-					const RA_hours = Number(RA_STR.split('h')[0]);
-					const RA_minutes = Number(RA_STR.split('h').pop().split('m')[0]);
-					const RA_seconds = Number(RA_STR.split('m').pop().split('s')[0]);
-					const DEC_degrees = Number(DEC_STR.split('d')[0]);
-					const DEC_minutes = Number(DEC_STR.split('d').pop().split('m')[0]);
-					const DEC_seconds = Number(DEC_STR.split('m').pop().split('s')[0]);
-					// TIME SWITCH
-					const A = (RA_hours * 15) + (RA_minutes * 0.25) + (RA_seconds * 0.004166);
-					const B = ( Math.abs(DEC_degrees) + (DEC_minutes / 60) + (DEC_seconds / 3600)) * Math.sign(DEC_degrees)
+		function createBH(item){
+					var star = item;
+					var temp = Number(star.st_teff);
+					var mass = Number(star.sy_mass);
+					var size = Number(star.sy_size);
+					var host = star.galaxy;
+					var name = star.m;
+					var X = star.x;
+					var Y = star.y;
+					var Z = star.z;
 					// Convert 1 parsec = 30856776000000 km = 308567760 pk
-					// position 1496.00000 149,600,000 kilometers (km)
-					const C = DIST*PARSEC;//*30856776000000;
-					// Cartesian
-					const X = (C * Math.cos(B)) * Math.cos(A)
-					const Y = (C * Math.cos(B)) * Math.sin(A)
-					const Z = C * Math.sin(B)
-					var pX = X,
-						pY = Y,
-						pZ = Z
-					if(pX == 0 && pY == 0 && pZ == 0){
-						pX = 10000;
-						pY = 10000;
-						pZ = 10000;
-					}
+					//DIST = posStar[3];//DIST*equatorial;
 					// add it to the geometry
 					//points.push(new THREE.Vector3(pX, pY, pZ))
-					//console.log(i);
-					//console.log(pX, pY, pZ);
-					// Layout 
-					var size = Number(radius)*2*scaleCalc; //todo calc
-					if (size == 0){
-						size = 0.888
+					var geometrySphere = new THREE.SphereGeometry( radiusS, segmentsS, segmentsS ); 
+					var CombinedShader = {
+									  uniforms: {
+									    time: { value: 0 },
+									    scale: { value: size },
+									    highTemp: { type: "f", value: temp },
+									    lowTemp: { type: "f", value: temp / 6 },
+									   	diffuse: { type: "c", value: { r:1, g:0.906, b:0.91 } }
+									  },
+									  vertexShader: vertexShader,
+									  fragmentShader: fragmentShader
+					};
+				    let materialSphere = new THREE.ShaderMaterial({
+					    uniforms: CombinedShader.uniforms,
+					    vertexShader: CombinedShader.vertexShader,
+					    fragmentShader: CombinedShader.fragmentShader,
+					    uniformsNeedUpdate: true,
+				  	});
+				  	materialSphere.needsUpdate = true;
+				  	function createAI(geometry, material) {
+						return new THREE.Mesh(geometry, material);
 					}
-					if (radius == 0 || radius == null){
-						radius = 0.3649
-					}
-					if (orbit == null || orbit == 0){
-						orbit = 131.3;
-					}
-					orbit = orbit*234.54706481336*scaleCalc; // AU to Earth equatorial
-					if (speed == null){
-						speed = 0.1;
-					}
-					var planet;
-					planet = createBHS(radius, segmentsS, null);
+					var planet = createAI(geometrySphere, materialSphere);
 					planet.scale.set(size, size, size);
-					planet.position.set(pX, pY, pZ);
-					planet.receiveShadow = true;
+					planet.position.set(X, Y, Z);
+					planet.receiveShadow = false;
 					planet.userData.type = "Black hole";
 					planet.userData.host = host;
 					planet.userData.name = name;
-					planet.userData.orbit = orbit;
-					//planet.userData.speed = speed;
-					planet.userData.dist = DIST;
-					planet.userData.rspeed = speed;
-					resolve(planet);
 
-				}, 1);
-			});
+					function createText(text){
+			          const fontSize = 40;
+			          const canvas = document.createElement("canvas");
+			          const ctx = canvas.getContext("2d");
+			          ctx.font = `${fontSize}px bold`;
+			          ctx.fillStyle = "#ffffff";
+			          ctx.textAlign = "center";
+			          ctx.textBaseline = "middle";
+			          ctx.fillText(text, canvas.width / 2, fontSize);
+			          const texture = new THREE.Texture(canvas);
+			          texture.needsUpdate = true;
+			          const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+			          const sprite = new THREE.Sprite(spriteMaterial);
+			          sprite.scale.set(20*size, 10*size, 0.01*size);
+			          return sprite;
+			        }
+			        const text = createText(play());
+			          text.position.set(-40,size/5,-20);
+			          //planet.add(text);
+					return planet;
 		}
 		function createPlanets(item){				
 								const planetD = JSON.parse(JSON.stringify(item));
@@ -1884,7 +1894,7 @@ class SpaceControls {
 								var planet = createAI(geometrySphere, materialSphere);
 								planet.position.set(0, 0, 0);
 								planet.scale.set(size, size, size);
-								planet.receiveShadow = false;
+								planet.receiveShadow = true;
 								planet.userData.type = "Exoplanet";
 								planet.userData.host = host;
 								planet.userData.name = name;
@@ -1913,7 +1923,7 @@ class SpaceControls {
 						        }
 						        const text = createText(play());
 						          text.position.set(-40,size/3,-20);
-						          planet.add(text);
+						          //planet.add(text);
 						          //console.log(planet);
 								return planet;
 		}
@@ -1925,11 +1935,18 @@ class SpaceControls {
 					var temp = Number(star.st_teff);
 					var mass = Number(star.st_mass);
 					var size = Number(star.st_size);
+					var radius = Number(star.sy_rade);
+					var orbit = Number(star.sy_orbper);
+					var speed = Number(star.sy_speed);
+					var dist = Number(star.sy_dist);
 					var host = star.galaxy;
 					var name = star.m;
 					var X = star.x;
 					var Y = star.y;
 					var Z = star.z;
+					var R = star.K.r;
+			      	var G = star.K.g;
+			      	var B = star.K.b;
 					// Convert 1 parsec = 30856776000000 km = 308567760 pk
 					//DIST = posStar[3];//DIST*equatorial;
 					// add it to the geometry
@@ -1941,7 +1958,7 @@ class SpaceControls {
 									    scale: { value: size },
 									    highTemp: { type: "f", value: temp },
 									    lowTemp: { type: "f", value: temp / 6 },
-									   	diffuse: { type: "c", value: { r:1, g:0.906, b:0.91 } }
+									   	diffuse: { type: "c", value: { r:R, g:G, b:B } }
 									  },
 									  vertexShader: vertexShader,
 									  fragmentShader: fragmentShader
@@ -1951,6 +1968,11 @@ class SpaceControls {
 					    vertexShader: CombinedShader.vertexShader,
 					    fragmentShader: CombinedShader.fragmentShader,
 					    uniformsNeedUpdate: true,
+						blending:THREE.AdditiveBlending,
+						depthWrite: true,
+						transparent: false,
+						opacity: 1,
+						side: THREE.DoubleSide,
 				  	});
 				  	materialSphere.needsUpdate = true;
 				  	function createAI(geometry, material) {
@@ -1959,10 +1981,14 @@ class SpaceControls {
 					var planet = createAI(geometrySphere, materialSphere);
 					planet.scale.set(size, size, size);
 					planet.position.set(X, Y, Z);
-					planet.receiveShadow = false;
+					planet.receiveShadow = true;
 					planet.userData.type = "Star";
 					planet.userData.host = host;
 					planet.userData.name = name;
+					planet.userData.speed = speed;
+					planet.userData.orbit = orbit;
+					planet.userData.dist = dist;
+					planet.userData.radius = radius;
 
 					function createText(text){
 			          const fontSize = 40;
@@ -1982,7 +2008,7 @@ class SpaceControls {
 			        }
 			        const text = createText(play());
 			          text.position.set(-40,size/5,-20);
-			          planet.add(text);
+			          //planet.add(text);
 					return planet;
 		}
 		function play(){
@@ -2024,6 +2050,8 @@ class SpaceControls {
 					//console.log(quantum);
 					// Create Custom Solar System
 					var group = new THREE.Group();
+					var bh = createBH(quantum)
+					group.add( bh );
 					// Add to StarView Planets
 					var st = createStars(quantum);
 					stars.push(quantum.m);
